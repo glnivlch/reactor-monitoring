@@ -40,6 +40,7 @@ def check_parameter(
 
 name_user = input("Введите Ваше имя: ")
 print(f"Добро пожаловать, {name_user}!")
+history = []
 
 while True:
     temperature = parameter_input("Введите значение температуры реактора в градусах Цельсия: ")
@@ -49,6 +50,10 @@ while True:
 
     measurement_time = datetime.now()
     print(f"Дата и время замера: {measurement_time.strftime('%d.%m.%Y %H:%M:%S')}")
+
+    # Создание кортежа с данными параметров, сохранение его в историю измерений
+    measurement = (measurement_time, temperature, pressure)
+    history.append(measurement)
 
     # Проверка оптимальности температуры реактора
     is_temperature_normal = check_parameter(
