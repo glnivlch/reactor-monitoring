@@ -1,20 +1,18 @@
+# добавить фичу с переводом ед. изм. давления
+def parameter_input(message: str) -> float:
+    while True:
+        try:
+            parameter = float(input(message))
+            return parameter
+        except ValueError:
+            print("Введите корректное значение через точку. Например, 85.5")
+
+
 name_user = input("Введите Ваше имя: ")
 print(f"Добро пожаловать, {name_user}!")
 
-# добавить фичу с переводом ед. изм. давления
-while True:
-    try:
-        temperature = float(input("Введите значение температуры реактора в градусах Цельсия: "))
-        break
-    except ValueError:
-        print("Введите корректное значение. Например, 00.0")
-
-while True:
-    try:
-        pressure = float(input("Введите значение давления реактора в бар: "))
-        break
-    except ValueError:
-        print("Введите корректное значение. Например, 00.0")
+temperature = parameter_input("Введите значение температуры реактора в градусах Цельсия: ")
+pressure = parameter_input("Введите значение давления реактора в бар: ")
 
 is_temperature_normal = False
 is_pressure_normal = False
