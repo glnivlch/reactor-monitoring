@@ -1,5 +1,6 @@
 # Библиотеки
 import time
+from datetime import datetime
 
 # Константы
 TEMPERATURE_MIN = 70.0
@@ -45,6 +46,9 @@ while True:
 
     # добавить фичу с переводом ед. изм. давления
     pressure = parameter_input("Введите значение давления реактора в бар: ")
+
+    measurement_time = datetime.now()
+    print(f"Дата и время замера: {measurement_time.strftime('%d.%m.%Y %H:%M:%S')}")
 
     # Проверка оптимальности температуры реактора
     is_temperature_normal = check_parameter(
