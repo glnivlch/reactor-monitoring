@@ -1,4 +1,15 @@
-# добавить фичу с переводом ед. изм. давления
+# Библиотеки
+import time
+
+# Константы
+TEMPERATURE_MIN = 70.0
+TEMPERATURE_MAX = 90.0
+PRESSURE_MIN = 2.0
+PRESSURE_MAX = 5.0
+
+
+# Функции
+# Ввод числового параметра
 def parameter_input(message: str) -> float:
     while True:
         try:
@@ -8,34 +19,68 @@ def parameter_input(message: str) -> float:
             print("Введите корректное значение через точку. Например, 85.5")
 
 
+# Проверка параметра на допустимый диапазон
+def check_parameter(
+    parameter_name: str,
+    parameter: float,
+    lower_limit: float,
+    upper_limit: float
+) -> bool:
+    if lower_limit <= parameter <= upper_limit:
+        print(f"Параметр '{parameter_name}' в норме, продолжайте работу.")
+        return True
+    elif parameter > upper_limit:
+        print(f"Параметр '{parameter_name}' выше нормы, понизьте параметр!")
+        return False
+    else:
+        print(f"Параметр '{parameter_name}' ниже нормы, повысьте данный параметр!")
+        return False
+
+
 name_user = input("Введите Ваше имя: ")
 print(f"Добро пожаловать, {name_user}!")
 
-temperature = parameter_input("Введите значение температуры реактора в градусах Цельсия: ")
-pressure = parameter_input("Введите значение давления реактора в бар: ")
+while True:
+    temperature = parameter_input("Введите значение температуры реактора в градусах Цельсия: ")
 
-is_temperature_normal = False
-is_pressure_normal = False
+    # добавить фичу с переводом ед. изм. давления
+    pressure = parameter_input("Введите значение давления реактора в бар: ")
 
-# Проверка оптимальности температуры реактора
-if 70 <= temperature <= 90:
-    is_temperature_normal = True
-    print("Температура реактора в норме, продолжайте работать.")
-elif temperature > 90:
-    print("Температура реактора превысила норму, охладите реактор!")
-else:
-    print("Температура реактора низка, повысьте температуру!")
+    # Проверка оптимальности температуры реактора
+    is_temperature_normal = check_parameter(
+        "Температура реактора",
+        temperature,
+        TEMPERATURE_MIN,
+        TEMPERATURE_MAX
+    )
 
-# Проверка оптимальности давления реактора
-if 2 <= pressure <= 5:
-    is_pressure_normal = True
-    print("Давление реактора в норме, продолжайте работать.")
-elif pressure > 5:
-    print("Давление реактора превысило норму, сбросьте давление!")
-else:
-    print("Давление реактора низко, необходимо повысить давление!")
+    # Проверка оптимальности давления реактора
+    is_pressure_normal = check_parameter(
+        "Давление реактора",
+        pressure,
+        PRESSURE_MIN,
+        PRESSURE_MAX
+    )
 
-if is_temperature_normal and is_pressure_normal:
-    print(f"Реактор работает в штатном режиме. Продолжайте следить за процессом, {name_user}.")
-else:
-    print("Внимание! Параметры реактора требуют проверки.")
+    if is_temperature_normal and is_pressure_normal:
+        print(f"Реактор работает в штатном режиме. Продолжайте следить за процессом, {name_user}.")
+    else:
+        print("Внимание! Параметры реактора требуют проверки.")
+
+    print("Хотите продолжить мониторинг? Введите 'да' или 'нет'.")
+    program_termination = False
+    while True:
+        answer = input().strip().lower()
+        if answer == "нет":
+            program_termination = True
+            break
+        elif answer == "да":
+            break
+        else:
+            print("Введите строго 'да' или 'нет'.")
+
+    if program_termination:
+        print(f"Мониторинг завершен. До свидания, {name_user}!")
+        break
+
+    time.sleep(5)
