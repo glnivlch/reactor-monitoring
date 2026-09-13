@@ -89,6 +89,11 @@ while True:
             print("Введите строго 'да' или 'нет'.")
 
     if program_termination:
+        print(f"{'История измерений':-^50}")
+        for measurement_saved in history:
+            print(f"Дата и время замера реактора: {measurement_saved[0].strftime('%d.%m.%Y %H:%M:%S')}.")
+            print(f"Температура: {measurement_saved[1]}.")
+            print(f"Давление: {measurement_saved[2]}.")
         print(f"Мониторинг завершен. До свидания, {name_user}!")
         break
 
