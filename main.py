@@ -88,15 +88,40 @@ while True:
         else:
             print("Введите строго 'да' или 'нет'.")
 
+    # История измерений и статистика при завершении мониторинга
     if program_termination:
-        print(f"{'История измерений':-^70}")  # 70 символов таблица, строки будут на 40, 15 и 15 символов
-        print(f"{'Дата и время замера реактора':^40}{'Температура':^15}{'Давление':^15}")
-        for measurement_saved in history:
+        print(f"{'История измерений':-^75}")
+        print(f"{'№':^5}{'Дата и время замера реактора':^40}{'Температура':^15}{'Давление':^15}")
+
+        # Фиксация первых измерений, как экстремумов
+        max_temperature = history[0][1]
+        max_pressure = history[0][2]
+        min_temperature = history[0][1]
+        min_pressure = history[0][2]
+
+        for number, measurement_saved in enumerate(history, start=1):
             print(
-                f"{measurement_saved[0].strftime('%d.%m.%Y %H:%M:%S'):^40}"
-                f"{measurement_saved[1]:^15}"
-                f"{measurement_saved[2]:^15}"
+                f"{number:^5}"
+                f"{measurement_saved[0].strftime('%d.%m.%Y %H:%M:%S'):^40}"  # Дата и время
+                f"{measurement_saved[1]:^15}"  # Температура
+                f"{measurement_saved[2]:^15}"  # Давление
             )
+            # Поиск экстремумов температуры среди всех измерений
+            if measurement_saved[1] > max_temperature:
+                max_temperature = measurement_saved[1]
+            if measurement_saved[1] < min_temperature:
+                min_temperature = measurement_saved[1]
+
+            # Поиск экстремумов давления среди всех измерений
+            if measurement_saved[2] > max_pressure:
+                max_pressure = measurement_saved[2]
+            if measurement_saved[2] < min_pressure:
+                min_pressure = measurement_saved[2]
+
+        print(f"Максимальная температура за время мониторинга составила {max_temperature} градусов Цельсия.")
+        print(f"Максимальное давление за время мониторинга составило {max_pressure} бар.")
+        print(f"Минимальная температура за время мониторинга составила {min_temperature} градусов Цельсия.")
+        print(f"Минимальное давление за время мониторинга составило {min_pressure} бар.")
         print(f"Мониторинг завершен. До свидания, {name_user}!")
         break
 
