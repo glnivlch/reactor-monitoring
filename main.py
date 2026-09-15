@@ -99,6 +99,9 @@ while True:
         min_temperature = history[0][1]
         min_pressure = history[0][2]
 
+        total_temperature = 0
+        total_pressure = 0
+
         for number, measurement_saved in enumerate(history, start=1):
             print(
                 f"{number:^5}"
@@ -106,22 +109,29 @@ while True:
                 f"{measurement_saved[1]:^15}"  # Температура
                 f"{measurement_saved[2]:^15}"  # Давление
             )
-            # Поиск экстремумов температуры среди всех измерений
+            # Поиск экстремумов параметров среди всех измерений
             if measurement_saved[1] > max_temperature:
                 max_temperature = measurement_saved[1]
             if measurement_saved[1] < min_temperature:
                 min_temperature = measurement_saved[1]
 
-            # Поиск экстремумов давления среди всех измерений
             if measurement_saved[2] > max_pressure:
                 max_pressure = measurement_saved[2]
             if measurement_saved[2] < min_pressure:
                 min_pressure = measurement_saved[2]
 
+            total_temperature += measurement_saved[1]
+            total_pressure += measurement_saved[2]
+
+        average_temperature = total_temperature / len(history)
+        average_pressure = total_pressure / len(history)
+
         print(f"Максимальная температура за время мониторинга составила {max_temperature} градусов Цельсия.")
         print(f"Максимальное давление за время мониторинга составило {max_pressure} бар.")
         print(f"Минимальная температура за время мониторинга составила {min_temperature} градусов Цельсия.")
         print(f"Минимальное давление за время мониторинга составило {min_pressure} бар.")
+        print(f"Средняя температура составила {average_temperature} градусов Цельсия.")
+        print(f"Среднее давление составило {average_pressure} бар.")
         print(f"Мониторинг завершен. До свидания, {name_user}!")
         break
 
