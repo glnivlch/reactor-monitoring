@@ -89,11 +89,14 @@ while True:
             print("Введите строго 'да' или 'нет'.")
 
     if program_termination:
-        print(f"{'История измерений':-^50}")
+        print(f"{'История измерений':-^70}")  # 70 символов таблица, строки будут на 40, 15 и 15 символов
+        print(f"{'Дата и время замера реактора':^40}{'Температура':^15}{'Давление':^15}")
         for measurement_saved in history:
-            print(f"Дата и время замера реактора: {measurement_saved[0].strftime('%d.%m.%Y %H:%M:%S')}.")
-            print(f"Температура: {measurement_saved[1]}.")
-            print(f"Давление: {measurement_saved[2]}.")
+            print(
+                f"{measurement_saved[0].strftime('%d.%m.%Y %H:%M:%S'):^40}"
+                f"{measurement_saved[1]:^15}"
+                f"{measurement_saved[2]:^15}"
+            )
         print(f"Мониторинг завершен. До свидания, {name_user}!")
         break
 
