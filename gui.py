@@ -82,6 +82,7 @@ window.resize(800, 600)
 
 title_label = QLabel("Новое измерение", window)
 title_label.move(30, 40)
+title_label.setStyleSheet("font-size: 22px; font-weight: bold; color: #2563EB")
 
 # ввод имени
 label_name = QLabel("Введите свое имя", window)
@@ -107,6 +108,21 @@ pressure_input.move(30, 220)
 save_button = QPushButton("Сохранить", window)
 save_button.move(30, 270)
 save_button.resize(80, 30)
+
+save_button.setStyleSheet("""
+    QPushButton {
+        background-color: #2563EB;
+        color: white;
+        border-radius: 8px;
+    }
+    QPushButton:hover {
+        background-color: #1D4ED8;
+    }
+    QPushButton:pressed {
+        background-color: #1E40AF;
+    }
+""")
+
 save_button.clicked.connect(save_measurement)
 
 # ответ после ввода параметров
@@ -130,6 +146,7 @@ label_status4.resize(720, 30)
 history_button = QPushButton("История измерений", window)
 history_button.move(30, 510)
 history_button.resize(160, 35)
+history_button.setStyleSheet(save_button.styleSheet())
 
 # окно истории измерений
 history_window = QWidget()
@@ -147,6 +164,8 @@ history_table.setColumnWidth(0, 60)
 history_table.setColumnWidth(1, 220)
 history_table.setColumnWidth(2, 170)
 history_table.setColumnWidth(3, 170)
+
+history_table.verticalHeader().hide()
 
 # статистика параметров
 statistics_label = QLabel("", history_window)
@@ -177,6 +196,25 @@ average_pressure_label = QLabel("", history_window)
 average_pressure_label.move(350, 445)
 average_pressure_label.resize(650, 30)
 
+exit_button = QPushButton("Выход", window)
+exit_button.move(210, 510)
+exit_button.resize(100, 35)
+
+exit_button.setStyleSheet("""
+    QPushButton {
+        background-color: #DC2626;
+        color: white;
+        border-radius: 8px;
+    }
+    QPushButton:hover {
+        background-color: #B91C1C;
+    }
+    QPushButton:pressed {
+        background-color: #991B1B;
+    }
+""")
+
+exit_button.clicked.connect(app.quit)
 
 window.show()  # вызываем окно
 
