@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem
 import main
 
-
+# Функции
 def save_measurement() -> None:
     name = name_input.text()
 
@@ -72,10 +72,10 @@ def show_history() -> None:
         min_pressure_label.setText(f"Минимальное давление: {min_pressure} бар")
         average_pressure_label.setText(f"Среднее давление: {average_pressure} бар")
 
-
+# Главная программа
 app = QApplication([])
 
-# создание окна
+# Основное окно
 window = QWidget()
 window.setWindowTitle("Reactor Monitor")
 window.resize(800, 600)
@@ -84,27 +84,31 @@ title_label = QLabel("Новое измерение", window)
 title_label.move(30, 40)
 title_label.setStyleSheet("font-size: 22px; font-weight: bold; color: #2563EB")
 
-# ввод имени
+# Подзаголовок и поле ввода имени
 label_name = QLabel("Введите свое имя", window)
 label_name.move(30, 80)
 
 name_input = QLineEdit(window)
 name_input.move(30, 100)
-name_input.setPlaceholderText("Имя оператора")
 name_input.resize(250, 30)
+name_input.setPlaceholderText("Имя оператора")  # подсказка в поле
 
-# ввод параметров реактора
+
+# Подзаголовки и поля ввода параметров реактора
 label_temperature = QLabel("Введите температуру реактора,°C", window)
 label_temperature.move(30, 140)
+
 temperature_input = QLineEdit(window)
 temperature_input.move(30, 160)
 
 label_pressure = QLabel("Введите давление реактора, бар", window)
 label_pressure.move(30, 200)
+
 pressure_input = QLineEdit(window)
 pressure_input.move(30, 220)
 
-# кнопка сохранить
+# Кнопки
+# Кнопка сохранения
 save_button = QPushButton("Сохранить", window)
 save_button.move(30, 270)
 save_button.resize(80, 30)
@@ -123,9 +127,32 @@ save_button.setStyleSheet("""
     }
 """)
 
-save_button.clicked.connect(save_measurement)
+# Кнопка истории измерений
+history_button = QPushButton("История измерений", window)
+history_button.move(30, 510)
+history_button.resize(160, 35)
+history_button.setStyleSheet(save_button.styleSheet())
 
-# ответ после ввода параметров
+# Кнопка выхода
+exit_button = QPushButton("Выход", window)
+exit_button.move(210, 510)
+exit_button.resize(100, 35)
+
+exit_button.setStyleSheet("""
+    QPushButton {
+        background-color: #DC2626;
+        color: white;
+        border-radius: 8px;
+    }
+    QPushButton:hover {
+        background-color: #B91C1C;
+    }
+    QPushButton:pressed {
+        background-color: #991B1B;
+    }
+""")
+
+# Ответ после ввода параметров
 label_status1 = QLabel("", window)
 label_status1.move(30, 320)
 label_status1.resize(720, 30)
@@ -142,19 +169,12 @@ label_status4 = QLabel("", window)
 label_status4.move(30, 440)
 label_status4.resize(720, 30)
 
-# кнопка история измерений
-history_button = QPushButton("История измерений", window)
-history_button.move(30, 510)
-history_button.resize(160, 35)
-history_button.setStyleSheet(save_button.styleSheet())
-
-# окно истории измерений
+# Окно истории измерений
 history_window = QWidget()
 history_window.setWindowTitle("История измерений")
 history_window.resize(700, 500)
-history_button.clicked.connect(show_history)
 
-# таблица с историей
+# Таблица с историей
 history_table = QTableWidget(0, 4, history_window)
 history_table.setHorizontalHeaderLabels(["№", "Дата и время", "Температура,°C", "Давление, бар"])
 history_table.move(20, 20)
@@ -167,7 +187,7 @@ history_table.setColumnWidth(3, 170)
 
 history_table.verticalHeader().hide()
 
-# статистика параметров
+# Статистика параметров
 statistics_label = QLabel("", history_window)
 statistics_label.move(20, 370)
 statistics_label.resize(650, 30)
@@ -196,26 +216,10 @@ average_pressure_label = QLabel("", history_window)
 average_pressure_label.move(350, 445)
 average_pressure_label.resize(650, 30)
 
-exit_button = QPushButton("Выход", window)
-exit_button.move(210, 510)
-exit_button.resize(100, 35)
-
-exit_button.setStyleSheet("""
-    QPushButton {
-        background-color: #DC2626;
-        color: white;
-        border-radius: 8px;
-    }
-    QPushButton:hover {
-        background-color: #B91C1C;
-    }
-    QPushButton:pressed {
-        background-color: #991B1B;
-    }
-""")
-
+# Подключение кнопок к функциям
+save_button.clicked.connect(save_measurement)
+history_button.clicked.connect(show_history)
 exit_button.clicked.connect(app.quit)
 
 window.show()  # вызываем окно
-
 app.exec()
