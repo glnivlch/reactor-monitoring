@@ -1,5 +1,6 @@
 # Библиотеки
 from datetime import datetime
+from openpyxl import load_workbook
 
 # Константы
 TEMPERATURE_MIN = 70.0
@@ -29,11 +30,33 @@ def add_measurement(temperature: float, pressure: float) -> tuple[str, str]:
     measurement_time = datetime.now()
     measurement = (measurement_time, temperature, pressure)
     history.append(measurement)
+    save_to_excel(measurement)
 
     temperature_status = check_parameter(temperature, TEMPERATURE_MIN, TEMPERATURE_MAX)
     pressure_status = check_parameter(pressure, PRESSURE_MIN, PRESSURE_MAX)
 
     return (temperature_status, pressure_status)
+
+
+# Сохранение измерения в Excel
+def save_to_excel(measurement: tuple) -> None:
+    book = load_workbook("measurements.xlsx")
+    sheet = book.active
+    sheet.append(measurement)
+    book.save("measurements.xlsx")
+
+
+# Восстановление предыдущей сессии в актуальную историю измерений
+def load_history_from_excel() -> None:
+    book = load_workbook("measurements.xlsx")
+    sheet = book.active
+    for i in range(2, sheet.max_row + 1):
+        measurement = []
+        for j in range(1, 4):
+            measurement.append(sheet.cell(row=i, column=j).value)
+
+        measurement = tuple(measurement)
+        history.append(measurement)
 
 
 # Расчет статистики параметров

@@ -26,8 +26,10 @@ def save_measurement() -> None:
 
     label_status1.setText("Измерение сохранено.")
     if temperature_status == "normal" and pressure_status == "normal":
+        label_status2.setStyleSheet("color: #16A34A; font-weight: bold;")
         label_status2.setText("Реактор работает в штатном режиме! Продолжайте мониторинг.")
     else:
+        label_status2.setStyleSheet("color: #DC2626; font-weight: bold;")
         label_status2.setText("Внимание! Обнаружены отклонения от нормального режима!")
 
         if temperature_status == "high":
@@ -53,7 +55,6 @@ def show_history() -> None:
         date_item = QTableWidgetItem(date)
         history_table.setItem(number, 1, date_item)
 
-
         temperature_item = QTableWidgetItem(str(measurement_saved[1]))
         history_table.setItem(number, 2, temperature_item)
 
@@ -74,6 +75,7 @@ def show_history() -> None:
 
 # Главная программа
 app = QApplication([])
+main.load_history_from_excel()
 
 # Основное окно
 window = QWidget()
@@ -164,10 +166,12 @@ label_status2.resize(720, 30)
 label_status3 = QLabel("", window)
 label_status3.move(30, 400)
 label_status3.resize(720, 30)
+label_status3.setStyleSheet("color: #DC2626; font-weight: bold;")
 
 label_status4 = QLabel("", window)
 label_status4.move(30, 440)
 label_status4.resize(720, 30)
+label_status4.setStyleSheet("color: #DC2626; font-weight: bold;")
 
 # Окно истории измерений
 history_window = QWidget()
