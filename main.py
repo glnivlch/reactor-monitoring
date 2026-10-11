@@ -1,6 +1,6 @@
 # Библиотеки
 from datetime import datetime
-from openpyxl import load_workbook
+from openpyxl import Workbook, load_workbook
 
 # Константы
 TEMPERATURE_MIN = 70.0
@@ -48,15 +48,26 @@ def save_to_excel(measurement: tuple) -> None:
 
 # Восстановление предыдущей сессии в актуальную историю измерений
 def load_history_from_excel() -> None:
-    book = load_workbook("measurements.xlsx")
-    sheet = book.active
-    for i in range(2, sheet.max_row + 1):
-        measurement = []
-        for j in range(1, 4):
-            measurement.append(sheet.cell(row=i, column=j).value)
+    try:
+        book = load_workbook("measurements.xlsx")
+        sheet = book.active
 
-        measurement = tuple(measurement)
-        history.append(measurement)
+        for i in range(2, sheet.max_row + 1):
+            measurement = []
+            for j in range(1, 4):
+                measurement.append(sheet.cell(row=i, column=j).value)
+
+            measurement = tuple(measurement)
+            history.append(measurement)
+    except FileNotFoundError:
+        book = Workbook()
+        sheet = book.active
+
+        sheet.cell(row=1, column=1, value="Дата и время")
+        sheet.cell(row=1, column=2, value="Температура,°C")
+        sheet.cell(row=1, column=3, value="Давление, бар")
+
+        book.save("measurements.xlsx")
 
 
 # Расчет статистики параметров

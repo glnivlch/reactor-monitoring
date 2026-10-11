@@ -3,7 +3,7 @@ import main
 
 # Функции
 def save_measurement() -> None:
-    name = name_input.text()
+    name = name_input.text()  # засунуть куда-нибудь это имя, а то не используется никак
 
     label_status2.clear()
     label_status3.clear()
